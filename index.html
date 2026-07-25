@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pétition Égalité MENA — Garena Free Fire</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0f19;
+    --bg-card: #151b2b;
+    --accent: #f59e0b;
+    --accent-2: #fbbf24;
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #1e293b;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --info: #3b82f6;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .hero {
+    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #0b0f19 100%);
+    padding: 4rem 1.5rem 5rem;
+    text-align: center;
+    position: relative;
+    border-bottom: 3px solid var(--accent);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(245,158,11,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(245,158,11,0.15);
+    border: 1px solid rgba(245,158,11,0.3);
+    color: var(--accent);
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-size: clamp(1.6rem, 5vw, 2.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(90deg, #fff, var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .counter-wrap {
+    max-width: 600px;
+    margin: -3rem auto 2rem;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 10;
+  }
+  .counter-box {
+    background: var(--bg-card);
+    border: 2px solid var(--accent);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(245,158,11,0.12);
+  }
+  .counter-number {
+    font-size: clamp(3rem, 8vw, 4.5rem);
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .counter-label {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+  }
+  .progress-wrap {
+    margin-top: 1.25rem;
+  }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+  }
+  .progress-bar {
+    width: 100%; height: 12px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: 6px;
+    transition: width 1s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+  }
+  .milestones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+  .milestone {
+    text-align: center;
+    flex: 1;
+  }
+  .milestone-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    margin: 0 auto 0.25rem;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+  }
+  .milestone.reached .milestone-dot {
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(245,158,11,0.5);
+  }
+  .milestone.reached {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .card h2 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .card h2 .icon { font-size: 1.3rem; }
+
+  .demands {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .demand {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: rgba(245,158,11,0.06);
+    border-radius: 12px;
+    border-left: 3px solid var(--accent);
+  }
+  .demand-num {
+    background: var(--accent);
+    color: var(--bg);
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .demand-text { font-size: 0.9rem; }
+  .demand-text strong { color: var(--text); }
+
+  .form-group { margin-bottom: 1rem; }
+  .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.1);
+  }
+  .btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: var(--bg);
+    font-weight: 800;
+    font-size: 1.05rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  }
+  .btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(245,158,11,0.25);
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .share-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.6rem;
+  }
+  .share-btn {
+    padding: 0.7rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+    transition: all 0.2s;
+  }
+  .share-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .sig-list {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+  .sig-list::-webkit-scrollbar { width: 6px; }
+  .sig-list::-webkit-scrollbar-track { background: var(--bg); border-radius: 3px; }
+  .sig-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .sig-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem;
+    border-bottom: 1px solid var(--border);
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .sig-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #f97316);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: var(--bg);
+    font-size: 0.85rem; flex-shrink: 0;
+  }
+  .sig-info { flex: 1; min-width: 0; }
+  .sig-name { font-weight: 700; font-size: 0.9rem; }
+  .sig-msg {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sig-time {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+  .empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 2.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .stat-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem;
+    text-align: center;
+  }
+  .stat-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(120px);
+    background: var(--success);
+    color: white;
+    padding: 0.85rem 1.75rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    z-index: 1000;
+    box-shadow: 0 10px 40px rgba(34,197,94,0.3);
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .toast.error { background: var(--danger); box-shadow: 0 10px 40px rgba(239,68,68,0.3); }
+  .toast.info { background: var(--info); box-shadow: 0 10px 40px rgba(59,130,246,0.3); }
+
+  .hashtag { color: var(--accent); font-weight: 700; }
+
+  .setup-info {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: none;
+  }
+  .setup-info strong { color: var(--info); }
+  .setup-info code {
+    background: var(--bg);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+  .setup-info ol { margin: 0.5rem 0 0 1.2rem; line-height: 1.8; }
+  .setup-info a { color: var(--info); }
+
+  .transparency-note {
+    background: rgba(34,197,94,0.06);
+    border: 1px solid rgba(34,197,94,0.15);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .transparency-note strong { color: var(--success); }
+
+  @media (max-width: 480px) {
+    .hero { padding: 2.5rem 1rem 4rem; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .share-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">🔥 Mobilisation Communautaire</div>
+  <div style="font-size:2.5rem;margin-bottom:0.5rem;">🎮</div>
+  <h1>Égalité pour le Serveur MENA</h1>
+  <p>Garena Free Fire — Fin à la négligence du serveur Middle East & North Africa. Mêmes droits, mêmes standards.</p>
+</div>
+
+<div class="counter-wrap">
+  <div class="counter-box">
+    <div class="counter-number" id="countDisplay">0</div>
+    <div class="counter-label">signatures collectées</div>
+    <div class="progress-wrap">
+      <div class="progress-header">
+        <span>Progression</span>
+        <span id="progressText">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <div class="milestones">
+        <div class="milestone" data-val="5000"><div class="milestone-dot"></div>5K</div>
+        <div class="milestone" data-val="20000"><div class="milestone-dot"></div>20K</div>
+        <div class="milestone" data-val="50000"><div class="milestone-dot"></div>50K</div>
+        <div class="milestone" data-val="100000"><div class="milestone-dot"></div>100K</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2><span class="icon">📋</span> Notre revendication</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">
+      Le serveur MENA est victime d'une négligence flagrante. Pourtant, le MENA représente l'un des marchés les plus dynamiques du mobile gaming. Nous demandons simplement <strong style="color:var(--text)">l'égalité</strong> avec les autres régions.
+    </p>
+    <div class="demands">
+      <div class="demand"><div class="demand-num">1</div><div class="demand-text"><strong>Stabilité technique</strong> — Investissements en infrastructure à la hauteur du marché MENA.</div></div>
+      <div class="demand"><div class="demand-num">2</div><div class="demand-text"><strong>Égalité des événements</strong> — Même nombre d'événements, mêmes récompenses, mêmes délais.</div></div>
+      <div class="demand"><div class="demand-num">3</div><div class="demand-text"><strong>Support client dédié</strong> — Équipe réactive comprenant les langues et spécificités locales.</div></div>
+      <div class="demand"><div class="demand-num">4</div><div class="demand-text"><strong>Communication transparente</strong> — Calendrier de maintenance et feuille de route publique.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="icon">✍️</span> Signer la pétition</h2>
+
+    <div class="transparency-note">
+      <strong>✅ Transparence totale</strong> — Chaque signature est publique, horodatée et vérifiable. Aucune donnée n'est cachée ni falsifiée. Le code source est ouvert et inspectable.
+    </div>
+
+    <div id="setupPanel" class="setup-info">
+      <strong>⚙️ Passer en mode global (obligatoire pour une vraie pétition)</strong><br>
+      Ce site utilise <strong>Firebase</strong> pour stocker les signatures en temps réel de manière transparente.
+      <ol>
+        <li>Crée un projet gratuit sur <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a></li>
+        <li>Active Realtime Database → Règles : <code>".read": true, ".write": true</code></li>
+        <li>Copie ta config (⚙️ Paramètres du projet → SDK)</li>
+        <li>Remplace <code>firebaseConfig</code> dans le code par la tienne</li>
+      </ol>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-value" id="todayCount">0</div><div class="stat-label">Aujourd'hui</div></div>
+      <div class="stat-box"><div class="stat-value" id="weekCount">0</div><div class="stat-label">Cette semaine</div></div>
+      <div class="stat-box"><div class="stat-value" id="countryCount">0</div><div class="stat-label">Pays</div></div>
+    </div>
+
+    <div class="form-group">
+      <label>Pseudo / Nom *</label>
+      <input type="text" id="nameInput" placeholder="Ton pseudo ou ton nom" maxlength="30">
+    </div>
+    <div class="form-group">
+      <label>Pays / Région</label>
+      <select id="countryInput">
+        <option value="">-- Sélectionne ton pays --</option>
+        <option value="DZ">🇩🇿 Algérie</option>
+        <option value="BH">🇧🇭 Bahreïn</option>
+        <option value="EG">🇪🇬 Égypte</option>
+        <option value="IQ">🇮🇶 Irak</option>
+        <option value="JO">🇯🇴 Jordanie</option>
+        <option value="KW">🇰🇼 Koweït</option>
+        <option value="LB">🇱🇧 Liban</option>
+        <option value="LY">🇱🇾 Libye</option>
+        <option value="MA">🇲🇦 Maroc</option>
+        <option value="OM">🇴🇲 Oman</option>
+        <option value="PS">🇵🇸 Palestine</option>
+        <option value="QA">🇶🇦 Qatar</option>
+        <option value="SA">🇸🇦 Arabie Saoudite</option>
+        <option value="SD">🇸🇩 Soudan</option>
+        <option value="SY">🇸🇾 Syrie</option>
+        <option value="TN">🇹🇳 Tunisie</option>
+        <option value="AE">🇦🇪 Émirats</option>
+        <option value="YE">🇾🇪 Yémen</option>
+        <option value="TR">🇹🇷 Turquie</option>
+        <option value="OTHER">🌍 Autre</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Message (optionnel)</label>
+      <textarea id="msgInput" rows="2" placeholder="Pourquoi signes-tu ?" maxlength="120"></textarea>
+    </div>
+    <button class="btn" id="signBtn" onclick="signPetition()">
+      <span>✊</span> Je signe la pétition
+    </button>
+    <div style="margin-top:0.75rem;text-align:center;">
+      <button class="btn btn-secondary" onclick="toggleSetup()">⚙️ Comment rendre ce site global ?</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="icon">📢</span> Partager massivement</h2>
+    <div class="share-grid">
+      <button class="share-btn" onclick="share('twitter')">🐦 Twitter / X</button>
+      <button class="share-btn" onclick="share('whatsapp')">💬 WhatsApp</button>
+      <button class="share-btn" onclick="share('telegram')">✈️ Telegram</button>
+      <button class="share-btn" onclick="share('copy')">📋 Copier le lien</button>
+    </div>
+    <p style="margin-top:0.75rem;font-size:0.8rem;color:var(--text-muted);text-align:center;">
+      Hashtags : <span class="hashtag">#FreeFireMENA</span> <span class="hashtag">#EqualityForMENA</span> <span class="hashtag">#GarenaFixMENA</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <h2><span class="icon">📝</span> Signataires <span id="liveBadge" style="font-size:0.7rem;background:var(--success);color:white;padding:0.15rem 0.5rem;border-radius:100px;margin-left:auto;display:none;">● LIVE</span></h2>
+    <div class="sig-list" id="sigList">
+      <div class="empty-state">Aucune signature pour le moment. Sois le premier ! ✨</div>
+    </div>
+  </div>
+
+  <div class="card" style="background:rgba(245,158,11,0.05);border-color:rgba(245,158,11,0.2);">
+    <h2><span class="icon">🎯</span> Objectifs & Impact estimé</h2>
+    <div style="font-size:0.9rem;color:var(--text-muted);line-height:1.7;">
+      <p style="margin-bottom:0.75rem;"><strong style="color:var(--accent)">5 000 signatures</strong> — Seuil médiatique. Article sur un site gaming communautaire.</p>
+      <p style="margin-bottom:0.75rem;"><strong style="color:var(--accent)">20 000 signatures</strong> — Tendance Twitter, YouTubers et streamers MENA en parlent.</p>
+      <p style="margin-bottom:0.75rem;"><strong style="color:var(--accent)">50 000 signatures</strong> — Garena doit répondre publiquement. Pression corporate réelle.</p>
+      <p><strong style="color:var(--accent)">100 000+ signatures</strong> — Menace de boycott crédible. Impact tangible sur les décisions.</p>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:1.5rem 0;color:var(--text-muted);font-size:0.8rem;">
+    Made with 🔥 par la communauté MENA — Non affilié à Garena — Code source ouvert et vérifiable
+  </div>
+</div>
+
+<div class="toast" id="toast">Message</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  // ═══════════════════════════════════════════════════════
+  //  CONFIGURATION FIREBASE — REMPLACE PAR LA Tienne
+  // ═══════════════════════════════════════════════════════
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  let app, db, signaturesRef;
+  let useFirebase = false;
+  let signatures = [];
+  const GOALS = [5000, 20000, 50000, 100000];
+
+  // Essayer d'init Firebase
+  try {
+    if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
+      app = initializeApp(firebaseConfig);
+      db = getDatabase(app);
+      signaturesRef = ref(db, "mena_petition_signatures");
+      useFirebase = true;
+    }
+  } catch (e) {
+    console.log("Firebase non configuré, mode local uniquement");
+  }
+
+  // Mode local : localStorage (uniquement pour l'utilisateur courant, pas global)
+  function loadLocal() {
+    const raw = localStorage.getItem("mena_petition_sigs_clean");
+    if (raw) {
+      try {
+        signatures = JSON.parse(raw);
+      } catch(e) { signatures = []; }
+    }
+  }
+
+  function saveLocal() {
+    localStorage.setItem("mena_petition_sigs_clean", JSON.stringify(signatures));
+  }
+
+  function showToast(text, type = "success") {
+    const t = document.getElementById("toast");
+    t.textContent = text;
+    t.className = "toast " + type;
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 3000);
+  }
+
+  function timeAgo(ts) {
+    const s = Math.floor((Date.now() - ts) / 1000);
+    if (s < 60) return "à l'instant";
+    const m = Math.floor(s / 60);
+    if (m < 60) return `il y a ${m} min`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `il y a ${h}h`;
+    const d = Math.floor(h / 24);
+    return `il y a ${d}j`;
+  }
+
+  function escapeHtml(t) {
+    const d = document.createElement("div");
+    d.textContent = t;
+    return d.innerHTML;
+  }
+
+  function getCountryFlag(code) {
+    const flags = {
+      DZ: "🇩🇿", BH: "🇧🇭", EG: "🇪🇬", IQ: "🇮🇶", JO: "🇯🇴", KW: "🇰🇼",
+      LB: "🇱🇧", LY: "🇱🇾", MA: "🇲🇦", OM: "🇴🇲", PS: "🇵🇸", QA: "🇶🇦",
+      SA: "🇸🇦", SD: "🇸🇩", SY: "🇸🇾", TN: "🇹🇳", AE: "🇦🇪", YE: "🇾🇪",
+      TR: "🇹🇷", OTHER: "🌍"
+    };
+    return flags[code] || "🌍";
+  }
+
+  function getCountryName(code) {
+    const names = {
+      DZ: "Algérie", BH: "Bahreïn", EG: "Égypte", IQ: "Irak", JO: "Jordanie",
+      KW: "Koweït", LB: "Liban", LY: "Libye", MA: "Maroc", OM: "Oman",
+      PS: "Palestine", QA: "Qatar", SA: "Arabie Saoudite", SD: "Soudan",
+      SY: "Syrie", TN: "Tunisie", AE: "Émirats", YE: "Yémen", TR: "Turquie",
+      OTHER: "Autre"
+    };
+    return names[code] || code;
+  }
+
+  function updateDisplay() {
+    const count = signatures.length;
+    document.getElementById("countDisplay").textContent = count.toLocaleString("fr-FR");
+
+    const maxGoal = GOALS[GOALS.length - 1];
+    const pct = Math.min((count / maxGoal) * 100, 100);
+    document.getElementById("progressFill").style.width = pct + "%";
+    document.getElementById("progressText").textContent = Math.floor(pct) + "%";
+
+    // Milestones
+    document.querySelectorAll(".milestone").forEach(m => {
+      const val = parseInt(m.dataset.val);
+      if (count >= val) m.classList.add("reached");
+      else m.classList.remove("reached");
+    });
+
+    // Stats
+    const now = Date.now();
+    const todayStart = new Date().setHours(0,0,0,0);
+    const weekStart = now - 7 * 24 * 60 * 60 * 1000;
+    const todaySigs = signatures.filter(s => s.time >= todayStart).length;
+    const weekSigs = signatures.filter(s => s.time >= weekStart).length;
+    const countries = new Set(signatures.map(s => s.country).filter(Boolean)).size;
+
+    document.getElementById("todayCount").textContent = todaySigs;
+    document.getElementById("weekCount").textContent = weekSigs;
+    document.getElementById("countryCount").textContent = countries;
+
+    // List
+    const list = document.getElementById("sigList");
+    if (signatures.length === 0) {
+      list.innerHTML = '<div class="empty-state">Aucune signature pour le moment. Sois le premier ! ✨</div>';
+      return;
+    }
+    list.innerHTML = signatures.slice().reverse().map(s => {
+      const initials = s.name.substring(0, 2).toUpperCase();
+      const flag = getCountryFlag(s.country);
+      const countryName = s.country ? getCountryName(s.country) : "";
+      const msg = s.msg ? `<div class="sig-msg">"${escapeHtml(s.msg)}"</div>` : "";
+      return `<div class="sig-item">
+        <div class="sig-avatar">${initials}</div>
+        <div class="sig-info">
+          <div class="sig-name">${escapeHtml(s.name)} ${flag}<span style="font-size:0.75rem;color:var(--text-muted);margin-left:0.3rem;">${countryName}</span></div>
+          ${msg}
+        </div>
+        <div class="sig-time">${timeAgo(s.time)}</div>
+      </div>`;
+    }).join("");
+  }
+
+  window.signPetition = function() {
+    const nameInput = document.getElementById("nameInput");
+    const countryInput = document.getElementById("countryInput");
+    const msgInput = document.getElementById("msgInput");
+    const name = nameInput.value.trim();
+    const country = countryInput.value;
+    const msg = msgInput.value.trim();
+
+    if (!name || name.length < 2) {
+      showToast("⚠️ Entre un pseudo valide (2 caractères min)", "error");
+      nameInput.focus();
+      return;
+    }
+
+    const lowerName = name.toLowerCase();
+    if (signatures.some(s => s.name.toLowerCase() === lowerName)) {
+      showToast("⚠️ Ce pseudo a déjà signé !", "error");
+      return;
+    }
+
+    const sig = { name, country, msg, time: Date.now() };
+
+    if (useFirebase && signaturesRef) {
+      push(signaturesRef, sig).then(() => {
+        showToast("✅ Signature enregistrée ! Merci 🔥");
+      }).catch(() => {
+        signatures.push(sig);
+        saveLocal();
+        showToast("✅ Signature enregistrée (mode local) !", "info");
+        updateDisplay();
+      });
+    } else {
+      signatures.push(sig);
+      saveLocal();
+      showToast("✅ Signature enregistrée ! Merci 🔥");
+      updateDisplay();
+    }
+
+    nameInput.value = "";
+    msgInput.value = "";
+    countryInput.value = "";
+  };
+
+  window.share = function(platform) {
+    const url = window.location.href;
+    const text = "Signez la pétition pour l'égalité du serveur MENA de Garena Free Fire ! #FreeFireMENA #EqualityForMENA";
+    if (platform === "twitter") {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, "_blank");
+    } else if (platform === "whatsapp") {
+      window.open(`https://wa.me/?text=${encodeURIComponent(text + " " + url)}`, "_blank");
+    } else if (platform === "telegram") {
+      window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, "_blank");
+    } else {
+      navigator.clipboard.writeText(url + " — " + text).then(() => showToast("📋 Lien copié !"));
+    }
+  };
+
+  window.toggleSetup = function() {
+    const panel = document.getElementById("setupPanel");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+  };
+
+  // Init
+  if (useFirebase) {
+    onValue(signaturesRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        signatures = Object.values(data).sort((a, b) => a.time - b.time);
+      } else {
+        signatures = [];
+      }
+      updateDisplay();
+    });
+    document.getElementById("liveBadge").style.display = "inline-block";
+  } else {
+    loadLocal();
+    updateDisplay();
+    console.log("Mode local uniquement. Configure Firebase pour un compteur global.");
+  }
+</script>
+</body>
+</html>
